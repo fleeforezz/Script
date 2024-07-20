@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Check update
+sudo apt update && sudo apt upgrade -y
+
 # Disable swap
 swapoff -a; sed -i '/swap/d' /etc/fstab
 
