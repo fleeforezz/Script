@@ -4,8 +4,16 @@
     ansible_host_key_checking: false ##If you get an error about hosts not trusted
   become: yes
   become_user: root
-
   tasks:
-    - name: Update and upgrade apt packages
-      apt:
-        upgrade: yes
+  - name: Update apt cache
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600  # Time in seconds to consider the cache valid
+
+  - name: Upgrade all packages
+    apt:
+      upgrade: dist  # You can also use 'safe' or 'full' depending on your needs
+
+  - name: Autoremove unnecessary packages
+    apt:
+      autoremove: yes
