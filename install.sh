@@ -24,8 +24,8 @@ esac
 echo
 echo "#----------- Disable swap -----------#"
 echo
-sudo su
-swapoff -a; sed -i '/swap/d' /etc/fstab
+sudo swapoff -a
+sudo sed -i '/swap/d' /etc/fstab
 
 # Install containerd
 echo
