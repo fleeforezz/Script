@@ -5,8 +5,9 @@ echo
 echo "#----------- Update apt packages -----------#"
 echo
 sudo apt update && sudo apt upgrade -y
-echo "\nA reboot is needed!"
-echo -e "\nRestart now? Y/n"
+echo
+echo "A reboot is needed!"
+echo -e "Restart now? Y/n"
 read RESTART
 case $RESTART in
     "Y" | "y")
@@ -96,6 +97,10 @@ case $MASTERNODE in
                 --control-plane-endpoint="$CONTROL_PLANE_ENDPOINT" \
                 --node-name="$NODE_NAME" \
                 --pod-network-cidr="$POD_NETWORK_CIDR"
+            
+            mkdir -p $HOME/.kube
+            sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+            sudo chown $(id -u):$(id -g) $HOME/.kube/config
         else
             echo "Initialization canceled."
             exit 1
