@@ -1,12 +1,30 @@
 #!/bin/bash
 
 # Check update
+echo "#----------- Update apt packages -----------#"
 sudo apt update && sudo apt upgrade -y
+echo "\nA reboot is needed!"
+echo "\nRestart now? Y/n"
+read RESTART
+case $RESTART in
+    "Y" | "y")
+        # Restart the system
+        sudo reboot
+        ;;
+    "N" | "n")
+        ;;
+    *)
+        echo "Invalid choice"
+        ;;
+esac
 
 # Disable swap
+echo "#----------- Disable swap -----------#"
+sudo su
 swapoff -a; sed -i '/swap/d' /etc/fstab
 
 # Install containerd
+echo "#----------- Install containerd -----------#"
 cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
 overlay
 br_netfilter
@@ -26,6 +44,7 @@ sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.t
 systemctl restart containerd
 
 # Install kubeadm, kubectl, kubelet
+echo "#----------- Install kubeadm, kubectl, kubelet -----------#"
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
