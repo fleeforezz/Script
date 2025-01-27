@@ -129,7 +129,7 @@
 #!/bin/bash
 
 # Variables
-POD_NETWORK_CIDR="10.244.0.0/16"
+POD_NETWORK_CIDR="192.168.0.0/16"
 KUBE_APT_KEYRING="/etc/apt/keyrings/kubernetes-apt-keyring.gpg"
 KUBE_APT_SOURCE="/etc/apt/sources.list.d/kubernetes.list"
 
