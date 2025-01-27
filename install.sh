@@ -191,6 +191,7 @@ initialize_master_node() {
     read -p "Enter the node name (e.g., k8s-master-1): " NODE_NAME
 
     echo -e "\nYou entered:\nControl Plane Endpoint: $CONTROL_PLANE_ENDPOINT\nNode Name: $NODE_NAME\nPod Network CIDR: $POD_NETWORK_CIDR"
+    echo
     read -p "Are these values correct? (yes/no): " CONFIRMATION
 
     if [[ "$CONFIRMATION" == "yes" ]]; then
