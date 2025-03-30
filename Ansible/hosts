@@ -27,9 +27,11 @@
 
 [Database-Server]
 # MySQL
-10.0.1.80
+#10.0.1.80
 # MSSQL
-10.0.1.81
+#10.0.1.81
+# Database Server
+10.0.1.82
 
 [File-Server]
 # TrueNas Scale
