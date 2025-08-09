@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Update all servers
+  hosts: all
   vars:
     ansible_host_key_checking: false ##If you get an error about hosts not trusted
   become: yes
@@ -17,3 +18,39 @@
   - name: Autoremove unnecessary packages
     apt:
       autoremove: yes
+
+- name: Install Docker and Docker Compose
+  hosts: all
+  become: yes
+  gather_facts: true
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+        update_cache: yes
+    
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker APT repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install Docker packages
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
