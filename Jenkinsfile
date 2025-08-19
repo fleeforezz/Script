@@ -6,7 +6,9 @@ pipeline{
             steps{
                 echo "========Run Script========"
                 dir('Update_apt') {
-                    sh './run-script.sh'
+                    sshagent(['guests-ssh']) {
+                        sh './run-script.sh'
+                    }
                 }
             }
         }
