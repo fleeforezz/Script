@@ -5,7 +5,8 @@ pipeline{
         stage("Run script"){
             steps{
                 echo "========Run Script========"
-                sh "./Update_apt/run-script.sh"
+                sh "cd Update_apt"
+                sh "./run-script.sh"
             }
         }
     }
