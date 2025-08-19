@@ -1,11 +1,11 @@
 pipeline{
     agent any
-    
+
     stages{
         stage("Run script"){
             steps{
                 echo "========Run Script========"
-                sh "bash ./Update_apt/run-script.sh"
+                sh "./Update_apt/run-script.sh"
             }
         }
     }
