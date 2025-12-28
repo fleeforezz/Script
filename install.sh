@@ -85,12 +85,12 @@ install_kubernetes_tools() {
 
 # Function: Initialize Master Node
 initialize_master_node() {
-    read -p "Enter the control plane endpoint (e.g., k8s-master.yourdomain.com): " CONTROL_PLANE_ENDPOINT
-    read -p "Enter the node name (e.g., k8s-master-1): " NODE_NAME
+    read -p "Enter the control plane endpoint (e.g., k8s-master.yourdomain.com): " CONTROL_PLANE_ENDPOINT </dev/tty
+    read -p "Enter the node name (e.g., k8s-master-1): " NODE_NAME </dev/tty
 
     echo -e "\nYou entered:\nControl Plane Endpoint: $CONTROL_PLANE_ENDPOINT\nNode Name: $NODE_NAME\nPod Network CIDR: $POD_NETWORK_CIDR"
     echo
-    read -p "Are these values correct? (yes/no): " CONFIRMATION
+    read -p "Are these values correct? (yes/no): " CONFIRMATION </dev/tty
 
     if [[ "$CONFIRMATION" == "yes" ]]; then
         sudo kubeadm init --control-plane-endpoint="$CONTROL_PLANE_ENDPOINT" --node-name="$NODE_NAME" --pod-network-cidr="$POD_NETWORK_CIDR"
@@ -131,7 +131,7 @@ check_prerequistites() {
     if free | grep -q 'Swap: *0 *0 *0'; then
         print_success "Swap is disabled."
         echo -n "Do you want to disable swap now? (Y/n): "
-        read DISABLE_SWAP_CHOICE
+        read DISABLE_SWAP_CHOICE </dev/tty
         case $DISABLE_SWAP_CHOICE in
             "Y" | "y" ) disable_swap ;;
             "N" | "n" ) ;;
@@ -147,7 +147,7 @@ check_prerequistites() {
     else
         print_warning "containerd is not installed."
         echo -n "Do you want to install containerd now? (Y/n): "
-        read INSTALL_CONTAINERD_CHOICE
+        read INSTALL_CONTAINERD_CHOICE </dev/tty
         case $INSTALL_CONTAINERD_CHOICE in
             "Y" | "y" ) install_containerd ;;
             "N" | "n" ) ;;
@@ -161,7 +161,7 @@ check_prerequistites() {
     else
         print_warning "kubeadm, kubectl, and/or kubelet are not installed."
         echo -n "Do you want to install Kubernetes tools now? (Y/n): "
-        read INSTALL_K8S_TOOLS_CHOICE
+        read INSTALL_K8S_TOOLS_CHOICE </dev/tty
         case $INSTALL_K8S_TOOLS_CHOICE in
             "Y" | "y" ) install_kubernetes_tools ;;
             "N" | "n" ) ;;
@@ -184,7 +184,7 @@ main() {
         print_success "All prerequisite checks passed."
         # Master Node Check 
         print_status "Initializing Master Node..."
-        read -p "Are you installing on the Master Node? (Y/n): " MASTERNODE
+        read -p "Are you installing on the Master Node? (Y/n): " MASTERNODE </dev/tty
         case $MASTERNODE in
             "Y" | "y") initialize_master_node && install_helm && install_calico ;;
             "N" | "n") print_success "Not in master node. Installation complete." ;;
