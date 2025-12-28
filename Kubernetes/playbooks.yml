@@ -18,3 +18,57 @@
   - name: Autoremove unnecessary packages
     apt:
       autoremove: yes
+
+  - name: disable swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb > 0
+
+  - name: comment swap in fstab
+    replace:
+      path: /etc/fstab
+      regexp: '^([^#].*?swap.*)$'
+      replace: '#\\1'
+
+  - name: Verify swap is disabled
+    command: free -m
+    register: free_output
+
+  - name: Install containerd
+    apt:
+      name: containerd
+      state: present
+      update_cache: yes
+
+  - name: Configure containerd
+    command: |
+      mkdir -p /etc/containerd
+      containerd config default > /etc/containerd/config.toml
+    args:
+      creates: /etc/containerd/config.toml
+
+  - name: Restart containerd
+    systemd:
+      name: containerd
+      state: restarted
+      enabled: yes
+
+  - name: Add Kubernetes apt repository
+    apt_repository:
+      repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+      state: present
+      filename: kubernetes
+      update_cache: yes
+      codename: kubernetes-xenial
+      keyserver: keyserver.ubuntu.com
+      key: 0xA7317B7FEA522B3C
+
+  - name: Install Kubernetes components
+    apt:
+      name:
+        - kubelet
+        - kubeadm
+        - kubectl
+      state: present
+      update_cache: yes
+
+  
