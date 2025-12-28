@@ -1,4 +1,4 @@
-# Script
+# Automation Scripts
 
 Run this commmand to install Kubernetes
 ```
