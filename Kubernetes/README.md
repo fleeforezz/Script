@@ -2,5 +2,5 @@
 
 Run this commmand to install Kubernetes
 ```
-curl -fsSL https://raw.githubusercontent.com/fleeforezz/Script/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/fleeforezz/Script/main/Kubernetes/install.sh | sudo bash
 ```
