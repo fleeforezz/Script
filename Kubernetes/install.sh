@@ -2,6 +2,10 @@
 
 set -e # Exit on error
 
+# Define the Kubernetes version you want
+K8S_VERSION="v1.35"
+CALICO="v3.31.3"
+
 # Default variables
 POD_NETWORK_CIDR="192.168.0.0/16"
 KUBE_APT_KEYRING="/etc/apt/keyrings/kubernetes-apt-keyring.gpg"
@@ -33,27 +37,20 @@ print_error() {
 
 # Function: Update and Upgrade System
 update_system() {
-    echo -e "\n#----------- Update apt packages -----------#\n"
+    print_status "Updating and upgrading system packages..."
     sudo apt update && sudo apt upgrade -y
-    echo -e "\nA reboot is needed!"
-    read -p "Restart now? (Y/n): " RESTART
-    case $RESTART in
-        "Y" | "y") sudo reboot; exit ;;
-        "N" | "n") ;;
-        *) echo "Invalid choice. Continuing...";;
-    esac
 }
 
 # Function: Disable Swap
 disable_swap() {
-    echo -e "\n#----------- Disable swap -----------#\n"
+    print_status "Disabling swap..."
     sudo swapoff -a
     sudo sed -i '/swap/d' /etc/fstab
 }
 
 # Function: Install containerd
 install_containerd() {
-    echo -e "\n#----------- Install containerd -----------#\n"
+    print_status "Installing containerd..."
     sudo tee /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
@@ -74,10 +71,10 @@ EOF
 
 # Function: Install Kubernetes Tools
 install_kubernetes_tools() {
-    echo -e "\n#----------- Install kubeadm, kubectl, kubelet -----------#\n"
+    print_status "Installing kubeadm, kubectl, kubelet..."
     sudo apt-get install -y apt-transport-https ca-certificates curl gpg
-    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o $KUBE_APT_KEYRING
-    echo "deb [signed-by=$KUBE_APT_KEYRING] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" | sudo tee $KUBE_APT_SOURCE
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/${K8S_VERSION}/deb/Release.key | sudo gpg --dearmor -o $KUBE_APT_KEYRING
+    echo "deb [signed-by=$KUBE_APT_KEYRING] https://pkgs.k8s.io/core:/stable:/${K8S_VERSION}/deb/ /" | sudo tee $KUBE_APT_SOURCE
     sudo apt-get update
     sudo apt-get install -y kubelet kubeadm kubectl
     sudo apt-mark hold kubelet kubeadm kubectl
@@ -109,7 +106,7 @@ initialize_master_node() {
 
 # Function: Install Helm
 install_helm() {
-    echo -e "\n#----------- Install Helm -----------#\n"
+    print_status "Installing Helm..."
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
     chmod 700 get_helm.sh
     ./get_helm.sh
@@ -117,15 +114,17 @@ install_helm() {
 
 # Function: Install Calico
 install_calico() {
-    echo -e "\n#----------- Install Calico -----------#\n"
+    print_status "Installing Calico..."
     helm repo add projectcalico https://docs.tigera.io/calico/charts
     kubectl create namespace tigera-operator
-    helm install calico projectcalico/tigera-operator --version v3.28.0 --namespace tigera-operator
+    helm install calico projectcalico/tigera-operator --version $CALICO --namespace tigera-operator
 }
 
 # Function: Check Prerequisites
 check_prerequistites() {
     print_status "Checking system prerequisites..."
+
+    update_system
 
     # Check if swap is disabled
     if free | grep -q 'Swap: *0 *0 *0'; then
