@@ -1,0 +1,7 @@
+######################
+# SERVERS TRANSPORTS #
+######################
+http:
+  serversTransports:
+    insecureTransport:
+      insecureSkipVerify: true  # Since homepage uses self-signed cert internally

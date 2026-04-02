@@ -1,0 +1,51 @@
+services:
+  traefik:
+    image: traefik:3.6.6 # or traefik:v3.3 to pin a version
+    container_name: traefik
+    restart: unless-stopped
+
+    security_opt:
+      - no-new-privileges:true # helps to increase security
+
+    networks:
+      - proxy
+
+    ports:
+      - 80:80
+      - 443:443
+      # - 10000:10000 # optional
+      # - 33073:33073 # optional
+
+    environment:
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_api_token # token file is the proper way to do it
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /srv/traefik/config/traefik.yaml:/traefik.yaml:ro
+      - /srv/traefik/config:/config:ro
+      - /srv/traefik/acme/acme.json:/acme.json
+      - /srv/traefik/secrets/cloudflare_api_token:/run/secrets/cloudflare_api_token:ro
+      - /srv/traefik/secrets/basic_auth_users:/run/secrets/basic_auth_users:ro
+      - /srv/traefik/logs:/var/log/traefik
+
+    labels:
+      - "traefik.enable=false"
+      #- "traefik.http.routers.traefik.entrypoints=http"
+      #- "traefik.http.routers.traefik.rule=Host(`traefik.hikarimoon.pro`)"
+      #- "traefik.http.middlewares.traefik-auth.basicauth.usersfile=/run/secrets/basic_auth_users"
+      #- "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      #- "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      #- "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      #- "traefik.http.routers.traefik-secure.entrypoints=https"
+      #- "traefik.http.routers.traefik-secure.rule=Host(`traefik.hikarimoon.pro`)"
+      #- "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      #- "traefik.http.routers.traefik-secure.tls=true"
+      #- "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
+      #- "traefik.http.routers.traefik-secure.tls.domains[0].main=hikarimoon.pro"
+      #- "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.hikarimoon.pro"
+      #- "traefik.http.routers.traefik-secure.service=api@internal"
+
+networks:
+  proxy:
+    external: true # or comment this line to auto create the network

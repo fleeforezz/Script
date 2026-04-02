@@ -1,0 +1,304 @@
+###########
+# ROUTERS #
+###########
+http:
+  routers:
+  #---- Homepage Router ----#
+    # HTTP to HTTPS redirect (Hompage)
+    homepage-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`homepage.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: homepage
+    # HTTPS router (Homepage)
+    homepage:
+      entryPoints:
+        - "https"
+      rule: "Host(`homepage.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare  # Add this!
+      service: homepage
+
+  #---- Portainer Router ----#
+    # HTTP to HTTPS redirect (Portainer)
+    portainer-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`dev-portainer.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: portainer
+    # HTTPS router (Portainer)
+    portainer:
+      entryPoints:
+        - "https"
+      rule: "Host(`dev-portainer.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: portainer
+
+  #---- Gitlab Router ----#
+    # HTTP to HTTPS redirect
+    gitlab-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`gitlab.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: gitlab
+    # HTTPS router
+    gitlab:
+      entryPoints:
+        - "https"
+      rule: "Host(`gitlab.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: gitlab
+
+  #---- Jenkins Router ----#
+    # HTTP to HTTPS redirect
+    jenkins-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`jenkins.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: jenkins
+    # HTTPS router
+    jenkins:
+      entryPoints:
+        - "https"
+      rule: "Host(`jenkins.hikarimoon.pro`)"
+      middlewares:
+        - jenkins-headers
+      tls:
+        certResolver: cloudflare
+      service: jenkins
+
+  #---- Immich Router ----#
+    # HTTP to HTTPS redirect
+    immich-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`immich.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: immich
+    # HTTPS router
+    immich:
+      entryPoints:
+        - "https"
+      rule: "Host(`immich.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: immich
+
+  #---- SonarQube Router ----#
+    # HTTP to HTTPS redirect
+    sonarqube-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`sonarqube.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: sonarqube
+    # HTTPS router
+    sonarqube:
+      entryPoints:
+        - "https"
+      rule: "Host(`sonarqube.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: sonarqube
+
+  #---- TrueNas Router ----#
+    # HTTP to HTTPS redirect
+    truenas-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`truenas.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: truenas
+    # HTTPS router
+    truenas:
+      entryPoints:
+        - "https"
+      rule: "Host(`truenas.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: truenas
+
+  #---- Bitwarden Router ----#
+    # HTTP to HTTPS redirect
+    bitwarden-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`bitwarden.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: bitwarden
+    # HTTPS router
+    bitwarden:
+      entryPoints:
+        - "https"
+      rule: "Host(`bitwarden.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: bitwarden
+
+  #---- Frigate Router ----#
+    # HTTP to HTTPS redirect
+    frigate-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`frigate.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: frigate
+    # HTTPS router
+    frigate:
+      entryPoints:
+        - "https"
+      rule: "Host(`frigate.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: frigate
+
+  #---- Navidrome Router ----#
+    # HTTP to HTTPS redirect
+    navidrome-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`navidrome.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: navidrome
+    # HTTPS router
+    navidrome:
+      entryPoints:
+        - "https"
+      rule: "Host(`navidrome.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: navidrome
+
+  #---- Proxmox Router ----#
+    # HTTP to HTTPS redirect
+    proxmox-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`proxmox.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: proxmox
+    # HTTPS router
+    proxmox:
+      entryPoints:
+        - "https"
+      rule: "Host(`proxmox.hikarimoon.pro`)"
+      middlewares:
+        - proxmox-headers
+      tls:
+        certResolver: cloudflare
+      service: proxmox
+
+  #---- Portfolio Router ----#
+    # HTTP to HTTPS redirect
+    portfolio-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`dev-portfolio.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: portfolio
+    # HTTPS router
+    portfolio:
+      entryPoints:
+        - "https"
+      rule: "Host(`dev-portfolio.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: portfolio
+
+  #---- Uptime Kuma Router ----#
+    # HTTP to HTTPS redirect
+    uptime-kuma-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`uptimekuma.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: uptime-kuma
+    # HTTPS router
+    uptimekuma:
+      entryPoints:
+        - "https"
+      rule: "Host(`uptimekuma.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: uptime-kuma
+
+  #---- Grafana Router ----#
+    # HTTP to HTTPS redirect
+    grafana-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`grafana.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: grafana
+    # HTTPS router
+    grafana:
+      entryPoints:
+        - "https"
+      rule: "Host(`grafana.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: grafana
+
+  #---- YoutubeDL Router ----#
+    # HTTP to HTTPS redirect
+    youtube-dl-http:
+      entryPoints:
+        - "http"
+      rule: "Host(`youtubedl.hikarimoon.pro`)"
+      middlewares:
+        - https-redirectscheme
+      service: youtube-dl
+    # HTTPS router
+    youtube-dl:
+      entryPoints:
+        - "https"
+      rule: "Host(`youtubedl.hikarimoon.pro`)"
+      middlewares:
+        - default-security-headers
+      tls:
+        certResolver: cloudflare
+      service: youtube-dl

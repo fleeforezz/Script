@@ -1,0 +1,124 @@
+############
+# SERVICES #
+############
+http:
+  services:
+  #---- Homepage Service ----#
+    homepage:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.60:3000"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Portainer Service ----#
+    portainer:
+      loadBalancer:
+        servers:
+          - url: "https://10.0.1.74:9443"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Gitlab Service ----#
+    gitlab:
+      loadBalancer:
+        servers:
+          - url: "https://10.0.1.77:443"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Jenkins Service ----#
+    jenkins:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.78:8080"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Immich Service ----#
+    immich:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.71:2283"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- SonarQube Service ----#
+    sonarqube:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.63:9032"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- TrueNas Service ----#
+    truenas:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.34:80"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Bitwarden Service ----#
+    bitwarden:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.71"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Frigate Service ----#
+    frigate:
+      loadBalancer:
+        servers:
+          - url: "https://10.0.1.70:8971"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Navidrome Service ----#
+    navidrome:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.70:4533"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Proxmox Service ----#
+    proxmox:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.33:8006"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Portfolio Service ----#
+    portfolio:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.74:9463"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Uptime Kuma Service ----#
+    uptime-kuma:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.60:3001"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- Grafana Service ----#
+    grafana:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.60:3002"
+        passHostHeader: true
+        serversTransport: insecureTransport
+
+  #---- YoutubeDL Service ----#
+    youtube-dl:
+      loadBalancer:
+        servers:
+          - url: "http://10.0.1.70:8998"
+        passHostHeader: true
+        serversTransport: insecureTransport
